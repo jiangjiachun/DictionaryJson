@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="jquery-3.4.1.min.js"></script>
+<script type="text/javascript" src="dictionary.js"  charset=”utf-8″></script>
+<script type="text/javascript">
+$(function() {
+	// 自动组成下拉列表
+	$("select[name='groups']").dicData({
+	    data: dic_groups
+	}).change(function() {
+		// 根据id获取字典名
+		alert($.dicName(this.value, dic_groups));
+		$("td[data-id]").data("id", this.value);
+		// 详情页面显示字典
+		$("td[data-id]").dicName();
+	})
+	
+})
+</script>
+</head>
+<body style="margin: 50px;">
+<select name='groups'>
+	<option value="">-请选择--</option>
+</select>
+<table>
+	<tr>
+		<td>组别</td>
+		<td data-id='' data-data='dic_groups'></td>
+		
+	</tr>
+</table>
+</body>
+</html>
