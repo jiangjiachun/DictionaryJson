@@ -10,14 +10,14 @@
 
 [analyze()](https://github.com/jiangjiachun/DictionaryJson/blob/master/src/main/java/com/dictionary/config/DictionaryExcelHolder.java)随应用启动。
 
-## Excel格式
+## [Excel格式](https://github.com/jiangjiachun/DictionaryJson/blob/master/src/main/resources/dictionary/dictionary.xls)
 
 1. 一个Sheet表示一个字典数据，Sheet中文名方便查看。
 2. 表格第一行转换成json后的变量英文名，保持唯一。
 3. 表格第二行json的key。
 4. 表格第三行开始对应的字典数据。
 
-## Js插件
+## [Js插件](https://github.com/jiangjiachun/DictionaryJson/blob/master/src/main/resources/dictionary/dictionary.utils.js)
 
 Demo：[index.html](https://github.com/jiangjiachun/DictionaryJson/blob/master/src/main/resources/static/index.html)
 
