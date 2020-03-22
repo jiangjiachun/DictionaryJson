@@ -9,7 +9,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -77,7 +76,11 @@ public final class DictionaryExcelHolder {
 	@PostConstruct
 	public void analyze() throws IOException {
 
-		analyze(EXCEL_PATH, JS_PLUGIN_PATH, JS_JSON_PATH);
+		analyze(file(JS_JSON_PATH));
+	}
+	
+	public void analyze(File jsJsonPath) throws IOException {
+		analyze(file(EXCEL_PATH), file(JS_PLUGIN_PATH), jsJsonPath);
 	}
 
 	/**
@@ -87,12 +90,12 @@ public final class DictionaryExcelHolder {
 	 * @param jsPluginPath 前端读字典插件路径
 	 * @param jsJsonPath excel分析出的json字典与前端读字典插件合并成js文件
 	 */
-	public void analyze(String excelPath, String jsPluginPath, String jsJsonPath) {
+	public void analyze(File excelPath, File jsPluginPath, File jsJsonPath) {
 		log.info("初始化字典数据开始...");
-		try (FileInputStream fileInputStream = new FileInputStream(file(excelPath));
+		try (FileInputStream fileInputStream = new FileInputStream(excelPath);
 				BufferedWriter fileWriter = new BufferedWriter(
-						new OutputStreamWriter(new FileOutputStream(file(jsJsonPath)), "utf-8"))) {
-			log.info("解析路径：{}", file(excelPath).getPath());
+						new OutputStreamWriter(new FileOutputStream(jsJsonPath), "utf-8"))) {
+			log.info("解析路径：{}", excelPath.getPath());
 			
 			hssfWorkbook = new HSSFWorkbook(fileInputStream);
 			hssfWorkbook.sheetIterator().forEachRemaining(sheet -> sheet(sheet, fileWriter));
@@ -133,10 +136,9 @@ public final class DictionaryExcelHolder {
 	 * @param fileWriter
 	 * @param jsPluginPath
 	 */
-	private void plugin(BufferedWriter fileWriter, String jsPluginPath) {
+	private void plugin(BufferedWriter fileWriter, File jsPlugin) {
 		try {
-			File js = file(jsPluginPath);
-			byte[] bytes = Files.readAllBytes(js.toPath());
+			byte[] bytes = Files.readAllBytes(jsPlugin.toPath());
 			String plugin = new String(bytes, "utf-8");
 			fileWriter.append(plugin);
 			log.info("JS插件写入完成...");
